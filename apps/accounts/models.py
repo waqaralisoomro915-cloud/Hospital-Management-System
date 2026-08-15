@@ -36,12 +36,12 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-
     class Role(models.TextChoices):
         ADMIN = "ADMIN", "Admin"
-        TEACHER = "TEACHER", "Teacher"
-        STUDENT = "STUDENT", "Student"
-
+        DOCTOR = "DOCTOR", "Doctor"
+        NURSE = "NURSE", "Nurse"
+        RECEPTIONIST = "RECEPTIONIST", "Receptionist"
+        PATIENT = "PATIENT", "Patient"
     email = models.EmailField(unique=True)
 
     first_name = models.CharField(max_length=100)
@@ -50,7 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(
         max_length=20,
         choices=Role.choices,
-        default=Role.STUDENT
+        default=Role.PATIENT
     )
 
     is_active = models.BooleanField(default=True)

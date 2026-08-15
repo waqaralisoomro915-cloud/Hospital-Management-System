@@ -51,7 +51,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data["first_name"],
             last_name=validated_data["last_name"],
             password=password,
-            role=User.Role.STUDENT
+            role=User.Role.PATIENT
         )
 
         return user
@@ -68,7 +68,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         token = super().get_token(user)
 
-        # Custom data inside JWT
         token["email"] = user.email
         token["first_name"] = user.first_name
         token["last_name"] = user.last_name
@@ -89,6 +88,7 @@ class LogoutSerializer(serializers.Serializer):
 
         try:
             self.token = RefreshToken(attrs["refresh"])
+
         except Exception:
             raise serializers.ValidationError({
                 "refresh": "Invalid or expired refresh token."
@@ -124,22 +124,24 @@ class ChangePasswordSerializer(serializers.Serializer):
 
         user = self.context["request"].user
 
-        # Check old password
-        if not user.check_password(attrs["old_password"]):
+        if not user.check_password(
+            attrs["old_password"]
+        ):
             raise serializers.ValidationError({
                 "old_password": "Old password is incorrect."
             })
 
-        # Check new password confirmation
         if attrs["new_password"] != attrs["new_password_confirm"]:
             raise serializers.ValidationError({
                 "new_password_confirm": "Passwords do not match."
             })
 
-        # Don't allow same password
-        if user.check_password(attrs["new_password"]):
+        if user.check_password(
+            attrs["new_password"]
+        ):
             raise serializers.ValidationError({
-                "new_password": "New password must be different from old password."
+                "new_password":
+                    "New password must be different from old password."
             })
 
         return attrs
@@ -168,13 +170,14 @@ class ForgotPasswordSerializer(serializers.Serializer):
     def validate_email(self, value):
 
         try:
-            user = User.objects.get(email=value)
+            self.user = User.objects.get(
+                email=value
+            )
+
         except User.DoesNotExist:
             raise serializers.ValidationError(
                 "No account exists with this email."
             )
-
-        self.user = user
 
         return value
 
@@ -205,6 +208,7 @@ class ResetPasswordSerializer(serializers.Serializer):
             user = User.objects.get(
                 id=attrs["uid"]
             )
+
         except User.DoesNotExist:
             raise serializers.ValidationError({
                 "uid": "Invalid user."
@@ -219,16 +223,23 @@ class ResetPasswordSerializer(serializers.Serializer):
                 "token": "Invalid or expired token."
             })
 
-        # Check passwords
-        if attrs["new_password"] != attrs["new_password_confirm"]:
+        # Confirm new password
+        if (
+            attrs["new_password"]
+            != attrs["new_password_confirm"]
+        ):
             raise serializers.ValidationError({
-                "new_password_confirm": "Passwords do not match."
+                "new_password_confirm":
+                    "Passwords do not match."
             })
 
-        # Don't allow same password
-        if user.check_password(attrs["new_password"]):
+        # Don't allow old password
+        if user.check_password(
+            attrs["new_password"]
+        ):
             raise serializers.ValidationError({
-                "new_password": "New password must be different from old password."
+                "new_password":
+                    "New password must be different from old password."
             })
 
         self.user = user

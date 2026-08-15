@@ -37,9 +37,7 @@ class LoginView(TokenObtainPairView):
     permission_classes = [AllowAny]
 
 
-# =========================================================
 # LOGOUT
-# =========================================================
 
 class LogoutView(generics.GenericAPIView):
 
