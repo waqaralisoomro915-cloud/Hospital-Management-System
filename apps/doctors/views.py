@@ -10,6 +10,7 @@ class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
+
     def get_queryset(self):
         user = self.request.user
 

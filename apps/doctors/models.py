@@ -1,8 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import User
+from ..accounts.models import User
+from ..departments.models import Department
 
 class Doctor(models.Model):
-    specialization = models.CharField(max_length=100,unique=True)
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
+    department = models.ForeignKey(Department,on_delete=models.CASCADE)
+
+    specialization = models.CharField(max_length=100)
     license_number =models.CharField(max_length=100)
     qualification = models.CharField(max_length=100)
     experience = models.CharField(max_length=100)
