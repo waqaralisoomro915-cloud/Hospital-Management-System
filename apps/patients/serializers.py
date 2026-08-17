@@ -10,29 +10,29 @@ class PatientSerializer(serializers.ModelSerializer):
         model = Patient
         fields='__all__'
 
-    def validate(self, data):
-        date_of_birth = data.get('date_of_birth')
+    def validate_date_of_birth(self, date_of_birth):
         if date_of_birth > timezone.now().date():
             raise serializers.ValidationError("Date of birth must be in the future")
-        return data
+        return date_of_birth
 
-    def validate(self,data):
-        cnic =data.get('cnic')
+    def validate_cnic(self,cnic):
         pattern = r"^\d{5}-\d{7}-\d$"
         if not re.match(pattern,cnic):
             raise serializers.ValidationError("CNIC must not contain special characters")
-        return data
+        return cnic
 
-    def validate(self,data):
-        emergency_contact_phone = data.get('emergency_contact_phone')
+    def validate_emergency_contact_phone(self,emergency_contact_phone):
         pattern = r"^\+92\d{10}$"
         if not re.match(pattern,emergency_contact_phone):
             raise serializers.ValidationError("Phone number must be in the format 03001234567.")
-        return data
+        return emergency_contact_phone
 
-    def validate(self,data):
-        emergency_contact_relation=data.get('emergency_contact_relation')
-        pattern = r"^\+92\d{10}$"
-        if not re.match(pattern,emergency_contact_relation):
-            raise serializers.ValidationError("Emergency contact relation Phone number must be in the format 03001234567.")
-        return data
+    def validate_emergency_contact_relation(self, emergency_contact_relation):
+        pattern = r"^[A-Za-z ]+$"
+
+        if not re.match(pattern, emergency_contact_relation):
+            raise serializers.ValidationError(
+                "Emergency contact relation must contain only letters."
+            )
+
+        return emergency_contact_relation
