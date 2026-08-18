@@ -1,6 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
-
 from ..patients.models import Patient
 from ..doctors.models import Doctor
 from ..departments.models import Department
