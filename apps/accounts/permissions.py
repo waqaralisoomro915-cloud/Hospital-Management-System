@@ -104,3 +104,13 @@ class CanViewNurse(BasePermission):
             User.Role.NURSE,
             ]
         )
+class CanViewRoom(BasePermission):
+    def has_permission(self, request, view):
+        return(
+            request.user.is_authenticated
+            and request.user.role in [
+            User.Role.ADMIN,
+            User.Role.DOCTOR,
+            User.Role.NURSE,
+            ]
+        )

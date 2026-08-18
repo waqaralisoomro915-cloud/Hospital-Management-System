@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from ..doctors.models import Doctor
+from ..rooms.models import Room
 
 
 class Patient(models.Model):
@@ -22,8 +23,8 @@ class Patient(models.Model):
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="patient")
     doctor= models.OneToOneField(Doctor,on_delete=models.CASCADE,related_name="patient")
-    patient_id = models.CharField( max_length=20,unique=True
-    )
+    room = models.ForeignKey(Room,on_delete=models.SET_NULL,null=True)
+    patient_id = models.CharField( max_length=20,unique=True )
     father_name = models.CharField(max_length=100)
     date_of_birth = models.DateField()
 
