@@ -1,6 +1,5 @@
-from django.urls import path
-from . import views
-
-urlpatterns = [
-    path('prescriptions/',views.prescriptions,name='prescriptions'),
-]
+from .views import PrescriptionViewSet
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+router.register('prescriptions', PrescriptionViewSet,basename='prescriptions')
+urlpatterns = router.urls

@@ -1,13 +1,14 @@
 from rest_framework import viewsets
-from .serializers import PrescriptionSerializer
-from .models import Prescription
+from .serializers import PrescriptionMedicineSerializer
+from .models import PrescriptionMedicine
 from ..accounts.models import User
-from ..accounts.permissions import (IsAdminOrDoctor,CanviewPrescription)
+from ..accounts.permissions import (IsAdminOrDoctor,CanviewPrescription,IsAdmin)
 from rest_framework.permissions import IsAuthenticated
 
-class PrescriptionViewSet(viewsets.ModelViewSet):
-    queryset = Prescription.objects.all()
-    serializer_class = PrescriptionSerializer
+
+class PrescriptionMedicineViewSet(viewsets.ModelViewSet):
+    queryset = PrescriptionMedicine.objects.all()
+    serializer_class = PrescriptionMedicineSerializer
 
     def get_queryset(self):
         user = self.request.user
@@ -15,16 +16,16 @@ class PrescriptionViewSet(viewsets.ModelViewSet):
             User.Role.Nurse,
             User.Role.Admin,
         ]:
-            return Prescription.objects.all()
+            return PrescriptionMedicine.objects.all()
         elif user.role == User.Role.Patient:
-            return Prescription.objects.filter(patient_user=user)
+            return PrescriptionMedicine.objects.filter(prescription__patient_user=user)
         elif user.role == User.Role.Doctor:
-            return Prescription.objects.filter(doctor_user=user)
+            return PrescriptionMedicine.objects.filter(prescription__doctor_user=user)
 
-        return Prescription.objects.none()
+        return PrescriptionMedicine.objects.none()
     def get_permissions(self):
         if self.action == "destroy":
-            return [IsAdminOrDoctor]
+            return [IsAdmin]
         elif self.action in ["create", "update", "partial_update"]:
             return [IsAdminOrDoctor]
         elif self.action in ["list", "retrieve"]:
