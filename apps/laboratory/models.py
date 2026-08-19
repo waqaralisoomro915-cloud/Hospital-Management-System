@@ -1,12 +1,14 @@
 from django.db import models
 from ..patients.models import Patient
 from ..doctors.models import Doctor
+from ..medical_records.models import  MedicalRecord
 
 
 
 class Laboratory(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.PROTECT,related_name="laboratory_tests")
     doctor = models.ForeignKey(Doctor, on_delete=models.PROTECT,related_name="laboratory_tests")
+    medical_record = models.ForeignKey(MedicalRecord, on_delete=models.CASCADE, related_name="laboratory_tests")
     test_name = models.CharField(max_length = 100)
     test_type = models.CharField(max_length = 100)
     test_date = models.DateField()

@@ -1,14 +1,14 @@
 from django.db import models
 from ..patients.models import Patient
 from ..doctors.models import Doctor
+from ..medical_records.models import MedicalRecord
 
 
 class Prescription(models.Model):
-    patient = models.ForeignKey(
-        Patient, on_delete=models.PROTECT,related_name="prescriptions")
+    patient = models.ForeignKey(Patient, on_delete=models.PROTECT,related_name="prescriptions")
 
-    doctor = models.ForeignKey(
-        Doctor,on_delete=models.PROTECT,related_name="prescriptions")
+    doctor = models.ForeignKey(Doctor,on_delete=models.PROTECT,related_name="prescriptions")
+    medical_record = models.ForeignKey(MedicalRecord,on_delete=models.CASCADE,related_name="prescriptions" )
 
     prescription_date = models.DateField()
 

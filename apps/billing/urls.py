@@ -1,6 +1,6 @@
-from django.urls import path
-from . import views
+from .views import BillingViewSet
+from rest_framework import viewsets, routers
 
-urlpatterns = [
-    path('billing/', views.billing, name='billing'),
-]
+router = routers.DefaultRouter()
+router.register(r'patient', BillingViewSet,basename='patient')
+urlpatterns = router.urls
