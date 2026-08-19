@@ -31,8 +31,7 @@ class BillingViewSet(viewsets.ModelViewSet):
 
         elif user.role == User.Role.DOCTOR:
             return Billing.objects.filter(
-                patient__medical_records__doctor__user=user
-            ).distinct()
+                patient__doctor__user=user)
 
         return Billing.objects.none()
 

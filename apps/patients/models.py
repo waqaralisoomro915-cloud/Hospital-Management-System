@@ -22,7 +22,7 @@ class Patient(models.Model):
         O_NEGATIVE = "O-", "O-"
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="patient")
-    doctor= models.OneToOneField(Doctor,on_delete=models.CASCADE,related_name="patient")
+    doctor =models.ForeignKey(Doctor,on_delete=models.CASCADE,related_name="patient")
     room = models.ForeignKey(Room,on_delete=models.SET_NULL,null=True)
     patient_id = models.CharField( max_length=20,unique=True )
     father_name = models.CharField(max_length=100)
