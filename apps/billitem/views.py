@@ -1,20 +1,23 @@
 from .models import BillItem
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-
+from ..paginations import CustomPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 from ..accounts.models import User
-from ..accounts.permissions import (
-    IsAdmin,
-    CanViewBilling,
-)
-
+from ..accounts.permissions import (IsAdmin,CanViewBilling,)
 from .serializers import BillItemSerializer
-
-
 class BillItemViewSet(viewsets.ModelViewSet):
 
     queryset = BillItem.objects.all()
     serializer_class = BillItemSerializer
+    pagination_class = CustomPagination
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter,)
+    filterset_fields = ('item_type','amount',)
+    search_fields = ('item_type',)
+    ordering_fields = ('item_type','amount',)
+
+
 
     def get_queryset(self):
         user = self.request.user

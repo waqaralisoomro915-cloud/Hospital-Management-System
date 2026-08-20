@@ -1,16 +1,22 @@
 from rest_framework import viewsets
-
+from ..paginations import CustomPagination
 from .models import MedicalRecord
 from .serializers import MedicalRecordSerializer
 from ..accounts.models import User
 from ..accounts.permissions import (IsAdmin,IsAdminOrDoctor,CanViewMedical_record)
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 class MedicalRecordViewSet(viewsets.ModelViewSet):
     queryset = MedicalRecord.objects.all()
     serializer_class = MedicalRecordSerializer
-
+    pagination_class = CustomPagination
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields=["patient","doctor", "room"]
+    search_fields = ["patient", "doctor", "room"]
+    ordering_fields = ["patient", "doctor", "room"]
     def get_queryset(self):
         user = self.request.user
         if user.role in [

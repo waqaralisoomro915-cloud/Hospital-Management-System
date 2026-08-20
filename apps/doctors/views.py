@@ -4,11 +4,18 @@ from ..accounts.models import User
 from .serializers import DoctorSerializer
 from .models import Doctor
 from ..accounts.permissions import CanViewDoctor
-
-
+from ..paginations import CustomPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter,SearchFilter
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
+    pagination_class = CustomPagination
+    filter_backends = (DjangoFilterBackend,SearchFilter,OrderingFilter)
+    filterset_fields = ('specialization','experience','qualification',)
+    search_fields = ('specialization',)
+    ordering_fields = ('specialization','experience','qualification',)
+
 
 
     def get_queryset(self):
