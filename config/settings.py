@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #THIRD PARTY APPS
     'rest_framework',
+    'django_filters',
     #local apps
     'apps.accounts',
     'apps.doctors',
@@ -153,7 +154,7 @@ REST_FRAMEWORK = {
     ],
 
     "DEFAULT_PAGINATION_CLASS":
-        "rest_framework.pagination.LimitOffsetPagination",
+        "apps.paginations.CustomPagination",
 
     "PAGE_SIZE": 10,
 
