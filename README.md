@@ -477,18 +477,6 @@ Validation
 
 The system contains validation to maintain data integrity.
 
-CNIC
-
-CNIC values follow the Pakistani format:
-
-XXXXX-XXXXXXX-X
-Phone Number
-
-Phone numbers can follow:
-
-+92XXXXXXXXXX
-Hospitalization
-
 The system validates:
 
 Discharge date cannot be before admission date
@@ -518,7 +506,7 @@ Pagination
 Swagger/OpenAPI
 Installation
 1. Clone the Repository
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git clone https://github.com/waqaralisoomro915-cloud/Hospital_Management_System.git
 cd HospitalManagementSystem
 2. Create Virtual Environment
 Windows
