@@ -13,7 +13,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     serializer_class = DepartmentSerializer
     pagination_class = CustomPagination
     filter_backends = (DjangoFilterBackend,SearchFilter,OrderingFilter)
-    filterset_fields=('name','location','phone_number')
+    filterset_fields=('name','location',)
     search_fields=('name','location',)
     ordering_fields = ('name','location','phone_number',)
 

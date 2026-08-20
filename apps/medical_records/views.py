@@ -14,9 +14,9 @@ class MedicalRecordViewSet(viewsets.ModelViewSet):
     serializer_class = MedicalRecordSerializer
     pagination_class = CustomPagination
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields=["patient","doctor", "room"]
-    search_fields = ["patient", "doctor", "room"]
-    ordering_fields = ["patient", "doctor", "room"]
+    filterset_fields = ["patient", "doctor", "hospitalization"]
+    search_fields = ["patient", "doctor"]
+    ordering_fields = ["record_date", "created_at", "updated_at"]
     def get_queryset(self):
         user = self.request.user
         if user.role in [

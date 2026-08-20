@@ -15,6 +15,8 @@ class DoctorViewSet(viewsets.ModelViewSet):
     filterset_fields = ('specialization','experience','qualification',)
     search_fields = ('specialization',)
     ordering_fields = ('specialization','experience','qualification',)
+    ordering =["created_at"]
+
 
 
 

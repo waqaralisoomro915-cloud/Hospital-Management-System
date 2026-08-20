@@ -1,17 +1,15 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-
+from ..paginations import CustomPagination
 from .models import Nurse
 from .serializers import NurseSerializer
-from ..accounts.permissions import (
-    CanViewNurse,
-    IsAdmin,
-    IsAdminOrDoctor,
-)
+from ..accounts.permissions import (CanViewNurse,IsAdmin,IsAdminOrDoctor,)
 
 class NurseViewSet(viewsets.ModelViewSet):
     queryset = Nurse.objects.all()
     serializer_class = NurseSerializer
+    pagination_class = CustomPagination
+
     def get_queryset(self):
         user = self.request.user
 

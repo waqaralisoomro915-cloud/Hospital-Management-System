@@ -13,7 +13,7 @@ class HospitalizationViewSet(viewsets.ModelViewSet):
     serializer_class = HospitalizationSerializer
     pagination_class = CustomPagination
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    filterset_fields = ["status","admission_type","department","doctor", "room", ]
+    filterset_fields = ["status","admission_type","department","doctor", ]
     search_fields = [ "reason", "diagnosis",]
     ordering_fields = [ "admission_date","discharge_date", "created_at", ]
     ordering = ["-admission_date"]

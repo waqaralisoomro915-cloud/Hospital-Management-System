@@ -1,6 +1,7 @@
 from rest_framework import viewsets
-from rest_framework.decorators import permission_classes
-
+from ..paginations import CustomPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 from .serializers import PrescriptionSerializer
 from .models import Prescription
 from ..accounts.models import User
@@ -10,6 +11,11 @@ from rest_framework.permissions import IsAuthenticated
 class PrescriptionViewSet(viewsets.ModelViewSet):
     queryset = Prescription.objects.all()
     serializer_class = PrescriptionSerializer
+    pagination_class = CustomPagination
+    filter_backends = (DjangoFilterBackend,)
+    search_fields=("medicine_name","user",)
+    ordering_fields=("medicine_name",)
+    ordering = ("user",)
 
     def get_queryset(self):
         user = self.request.user

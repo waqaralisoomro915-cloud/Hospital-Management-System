@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-
+from ..paginations import CustomPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter,SearchFilter
 from .models import Patient
 from .serializers import PatientSerializer
 from ..accounts.permissions import (
@@ -12,9 +14,18 @@ from ..accounts.permissions import (
 
 class PatientViewSet(viewsets.ModelViewSet):
     serializer_class = PatientSerializer
+    pagination_class = CustomPagination
+    filter_backends = (DjangoFilterBackend,SearchFilter,OrderingFilter,)
+    filterset_fields = ("patient_id",)
+    search_fields = ("patient_id",)
+    ordering_fields = ("patient_id",)
+    ordering = ("patient_id",)
 
     def get_queryset(self):
         user = self.request.user
+        if not user.is_authenticated:
+            return Patient.objects.none()
+
 
         if user.role in [
             user.Role.ADMIN,

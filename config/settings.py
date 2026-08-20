@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     #THIRD PARTY APPS
     'rest_framework',
     'django_filters',
+    'drf_spectacular',
     #local apps
     'apps.accounts',
     'apps.doctors',
@@ -165,6 +166,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 AUTH_USER_MODEL = "accounts.User"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
